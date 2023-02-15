@@ -17,8 +17,9 @@ CREATE TABLE history_tb(
     id int auto_increment primary key,
     amount bigint not null,
     w_balance bigint,
-    w_account int,
-    d_account int,
+    d_balance bigint,
+    w_account_id int,
+    d_account_id int,
     created_at timestamp not null
 );
 commit;
