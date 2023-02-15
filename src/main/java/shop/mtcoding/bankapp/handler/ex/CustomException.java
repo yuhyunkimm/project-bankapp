@@ -9,7 +9,7 @@ public class CustomException extends RuntimeException {
 
     private HttpStatus status;
 
-    public CustomException(String message, HttpStatus status) {
+    public CustomException(String message, HttpStatus badRequest) {
         super(message);
         this.status = status;
     }

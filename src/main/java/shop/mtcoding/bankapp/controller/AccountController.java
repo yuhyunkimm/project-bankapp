@@ -23,7 +23,8 @@ public class AccountController {
 
     @GetMapping("/account/saveForm")
     public String saveForm() {
-        return "account/saveForm";
+        throw new CustomException("인증되지않았습니다", HttpStatus.UNAUTHORIZED);
+        // return "account/saveForm";
     }
 
     @GetMapping("/account/withdrawForm")
@@ -38,7 +39,8 @@ public class AccountController {
 
     @GetMapping("/account/transferForm")
     public String transferForm() {
-        return "account/transferForm";
+        throw new CustomException("인증되지않았습니다", HttpStatus.UNAUTHORIZED);
+        // return "account/transferForm";
     }
 
 }
