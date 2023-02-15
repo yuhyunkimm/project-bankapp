@@ -2,6 +2,9 @@ package shop.mtcoding.bankapp.model.account;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
 public interface AccountRepository {
     public int insert(Account account);
 

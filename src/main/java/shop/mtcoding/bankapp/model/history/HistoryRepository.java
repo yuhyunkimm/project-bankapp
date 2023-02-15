@@ -2,6 +2,9 @@ package shop.mtcoding.bankapp.model.history;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
+@Mapper
 public interface HistoryRepository {
     public int insert(History history);
 
