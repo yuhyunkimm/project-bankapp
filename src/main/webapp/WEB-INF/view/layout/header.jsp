@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Blog</title>
+    <title>bank 애플리케이션</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,13 +20,15 @@
 </head>
 
 <body>
-    <ul>
-        <li><a href="/loginForm">로그인</a></li>
-        <li><a href="/joinForm">회원가입</a></li>
-        <li><a href="/logout">로그아웃</a></li>
-        <li><a href="/account">계좌목록(인증)</a></li>
-        <li><a href="/account/saveForm">계좌생성(인증)</a></li>
-        <li><a href="/account/transferForm">이체하기(인증)</a></li>
-        <li><a href="/account/withdrawForm">출금하기(미인증)</a></li>
-        <li><a href="/account/depositForm">입금하기(미인증)</a></li>
-    </ul>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <ul>
+            <a href="/loginForm">로그인</a>
+            <a href="/joinForm">회원가입</a>
+            <a href="/logout">로그아웃</a>
+            <a href="/account">계좌목록(인증)</a>
+            <a href="/account/saveForm">계좌생성(인증)</a>
+            <a href="/account/transferForm">이체하기(인증)</a>
+            <a href="/account/withdrawForm">출금하기(미인증)</a>
+            <a href="/account/depositForm">입금하기(미인증)</a>
+        </ul>
+   </nav>
