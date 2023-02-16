@@ -10,6 +10,10 @@
 
     <select id="findById" resultType="shop.mtcoding.bankapp.model.account.Account">
         select * from account_tb where id = #{id}
+    </select>  
+
+    <select id="findByUserId" resultType="shop.mtcoding.bankapp.model.account.Account">
+        select * from account_tb where user_id = #{principalId}
     </select>   
 
     <select id="findByUsernameAndPassword" resultType="shop.mtcoding.bankapp.model.account.Account">
