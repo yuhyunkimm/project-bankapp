@@ -7,19 +7,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import shop.mtcoding.bankapp.dto.user.JoinReqDto;
 import shop.mtcoding.bankapp.handler.ex.CustomException;
+import shop.mtcoding.bankapp.model.user.User;
 import shop.mtcoding.bankapp.model.user.UserRepository;
 
 @Service
 public class UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Transactional // 회원가입 메서드 시작될때, 트랜잭션 시작, 끝날때, 트랜잭션 종료(commit)
-    public void 회원가입(JoinReqDto joinReqDto) {
+    public void 회원가입(User user) {
         // mybatis는 DTO의 변수의 Getter를 호출
         // mybatis는 인수로 들어온 오부잭트의 변수명으로 자동 매핑해준다
-        int result = userRepository.insert(joinReqDto);
+        int result = userRepository.insert(user);
         if (result != 1) {
             throw new CustomException("회원가입 실패", HttpStatus.INTERNAL_SERVER_ERROR); // 500번대
         }
