@@ -22,13 +22,22 @@
 <body>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <ul>
-            <a href="/loginForm">로그인</a>
-            <a href="/joinForm">회원가입</a>
-            <a href="/logout">로그아웃</a>
-            <a href="/account">계좌목록(인증)</a>
-            <a href="/account/saveForm">계좌생성(인증)</a>
-            <a href="/account/transferForm">이체하기(인증)</a>
-            <a href="/account/withdrawForm">출금하기(미인증)</a>
-            <a href="/account/depositForm">입금하기(미인증)</a>
+            <c:choose>
+               <c:when test="${principal != null}">
+                <a href="/logout">로그아웃</a>
+                <a href="/account">계좌목록(인증)</a>
+                <a href="/account/saveForm">계좌생성(인증)</a>
+                <a href="/account/transferForm">이체하기(인증)</a>
+                <a href="/account/withdrawForm">출금하기(미인증)</a>
+                <a href="/account/depositForm">입금하기(미인증)</a>
+               </c:when>
+            
+               <c:otherwise>
+                <a href="/loginForm">로그인</a>
+                <a href="/joinForm">회원가입</a>
+                <a href="/account/withdrawForm">출금하기(미인증)</a>
+                <a href="/account/depositForm">입금하기(미인증)</a>
+               </c:otherwise>
+            </c:choose>
         </ul>
    </nav>

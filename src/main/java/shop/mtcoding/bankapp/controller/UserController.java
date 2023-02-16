@@ -1,5 +1,7 @@
 package shop.mtcoding.bankapp.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -7,7 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import shop.mtcoding.bankapp.dto.user.JoinReqDto;
+import shop.mtcoding.bankapp.dto.user.loginReqDto;
 import shop.mtcoding.bankapp.handler.ex.CustomException;
+import shop.mtcoding.bankapp.model.user.User;
+import shop.mtcoding.bankapp.model.user.UserRepository;
 import shop.mtcoding.bankapp.service.UserService;
 
 @Controller
@@ -21,9 +26,37 @@ public class UserController {
      * 1. 그냥 변수 / 2. DTO(Object)
      * 주의 : key이름과 변수이름이 동일해야 한다
      */
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
+
+    @Autowired
+    private HttpSession session;
+
+    // select 요청이지만 로그인만 post로 한다(예외)
+    @PostMapping("/login")
+    public String login(loginReqDto loginReqDto) {
+        if (loginReqDto.getUsername() == null || loginReqDto.getUsername().isEmpty()) {
+            throw new CustomException("username을 작성해주세요", HttpStatus.BAD_REQUEST);
+        }
+        if (loginReqDto.getPassword() == null || loginReqDto.getPassword().isEmpty()) {
+            throw new CustomException("password 작성해주세요", HttpStatus.BAD_REQUEST);
+        }
+        // 레파지토리 호출(조회)
+        User principal = userRepository.findByUsernameAndPassword(loginReqDto);
+        // controller 기능확인
+        // User principal = new User();
+        // principal.setId(1);
+        // principal.setUsername("ssar");
+        if (principal == null) {
+            throw new CustomException("아이디 혹은 비밀번호가 틀렸습니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        session.setAttribute("principal", principal);
+        return "redirec:/";
+    }
 
     @PostMapping("/join")
     public String join(JoinReqDto joinReqDto) { // DTO로 받는 것이 좋다
