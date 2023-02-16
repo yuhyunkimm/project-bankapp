@@ -12,7 +12,7 @@ public class History {
     private Long amount;
     private Long wBalance;
     private Long dBalance;
-    private Integer wAccount_id; // 출금계좌 잔액
-    private Integer dAccount_id; // 입금계좌 잔액
+    private Integer wAccountId; // 출금계좌 잔액
+    private Integer dAccountId; // 입금계좌 잔액
     private Timestamp createdAt;
 }

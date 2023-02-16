@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import shop.mtcoding.bankapp.dto.user.JoinReqDto;
 import shop.mtcoding.bankapp.handler.ex.CustomException;
-import shop.mtcoding.bankapp.model.user.User;
 import shop.mtcoding.bankapp.model.user.UserRepository;
 
 @Service
@@ -24,8 +23,5 @@ public class UserService {
         if (result != 1) {
             throw new CustomException("회원가입 실패", HttpStatus.INTERNAL_SERVER_ERROR); // 500번대
         }
-    }
-
-    public void 회원가입(User model) {
     }
 }

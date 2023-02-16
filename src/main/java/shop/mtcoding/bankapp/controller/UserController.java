@@ -73,7 +73,7 @@ public class UserController {
         }
         // 컨벤션 : post / put / delete 할 때만 하기
         // 서비스 호출 => 회원가입();
-        userService.회원가입(joinReqDto.toModel());
+        userService.회원가입(joinReqDto);
 
         return "redirect:/loginForm";
     }
