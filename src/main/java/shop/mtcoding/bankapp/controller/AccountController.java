@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import shop.mtcoding.bankapp.dto.account.AccountSaveReqDto;
 import shop.mtcoding.bankapp.handler.ex.CustomException;
+import shop.mtcoding.bankapp.service.AccountService;
 
 @Controller
 public class AccountController {
@@ -19,8 +20,11 @@ public class AccountController {
     @Autowired
     private HttpSession session;
 
+    @Autowired
+    private AccountService accountService;
+
     @PostMapping("/account")
-    public String save(AccountSaveReqDto accountSaveReqDto) {
+    public String save(AccountSaveReqDto accountSaveReqDto, int principalId) {
         // 1. 인증
         User principal = (User) session.getAttribute("principal");
         if (principal == null) {
@@ -34,6 +38,8 @@ public class AccountController {
             throw new CustomException("password를 입력해주세요", HttpStatus.BAD_REQUEST);
         }
         // 3. 서비스에 계좌생성() 호출
+        accountService.계좌생성(accountSaveReqDto, principalId);
+
         return "redirect:/";
     }
 
