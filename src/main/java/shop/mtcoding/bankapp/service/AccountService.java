@@ -94,6 +94,7 @@ public class AccountService {
 
     }
 
+    @Transactional
     public int 계좌이체(AccountTransferReqDto accountTransferReqDto, int principalId) {
         // 1. 출금 계좌 존재 유무
         Account wAccountPS = accountRepository.findByNumber(accountTransferReqDto.getWAccountNumber());
@@ -114,18 +115,23 @@ public class AccountService {
         // 5. 출금계좌 소유주 확인(로그인 한 사람)
         wAccountPS.checkOwner(principalId);
 
-        // 6. 잔액 변경(-balace 확인)
-        wAccountPS.setBalance(accountTransferReqDto.getAmount());
+        // 6. 출금 및 반영
+        wAccountPS.withdraw(accountTransferReqDto.getAmount());
         accountRepository.updateById(wAccountPS);
 
-        // 7. 이체 트랜젝션 만들기(거래내역)
+        // 7. 입금 및 반영
+        dAccountPS.withdraw(accountTransferReqDto.getAmount());
+        accountRepository.updateById(wAccountPS);
+
+        // 8. 이체 트랜젝션 만들기(거래내역)
         History history = new History();
         history.setAmount(accountTransferReqDto.getAmount());
         history.setWAccountId(wAccountPS.getId());
-        history.setDAccountId(wAccountPS.getId());
+        history.setDAccountId(dAccountPS.getId());
         history.setWBalance(wAccountPS.getBalance());
-        history.setDBalance(wAccountPS.getBalance());
+        history.setDBalance(dAccountPS.getBalance());
+        historyRepository.insert(history);
 
         return wAccountPS.getId();
-    }
+    } // 서비스 메서드 종료시에 커밋됩니다. 서비스 실행하다가 예외 터지면 롤백
 }

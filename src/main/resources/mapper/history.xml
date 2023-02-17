@@ -4,7 +4,20 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="shop.mtcoding.bankapp.model.history.HistoryRepository">
-     <select id="findAll" resultType="shop.mtcoding.bankapp.model.history.History">
+
+    <select id="findByWithdraw" resultType="shop.mtcoding.bankapp.dto.account.AccountWithdrawReqDto">
+        select * from history_tb
+    </select>
+
+    <select id="findByDeposit" resultType="shop.mtcoding.bankapp.dto.account.AccountDepositReqDto">
+        select * from history_tb
+    </select>
+
+    <select id="findByAll" resultType="shop.mtcoding.bankapp.model.history.History">
+        select * from history_tb
+    </select>
+
+    <select id="findAll" resultType="shop.mtcoding.bankapp.model.history.History">
         select * from history_tb
     </select>
 

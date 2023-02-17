@@ -2,6 +2,7 @@ package shop.mtcoding.bankapp.controller;
 
 import java.util.List;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import shop.mtcoding.bankapp.dto.account.AccountDepositReqDto;
 import shop.mtcoding.bankapp.dto.account.AccountSaveReqDto;
@@ -140,8 +142,11 @@ public class AccountController {
         return "account/main";
     }
 
-    @GetMapping("/account/{id}")
-    public String detail(@PathVariable int id) {
+    @GetMapping("/account/{id}") // get요청은 body가 없다 => 쿼리스트링
+    public String detail(@PathVariable int id, @RequestParam(name = "gubun", defaultValue = "all") String gubun) {
+        // 1.인증 (get이라 유효성 검사가 필요없다)
+
+        // 2. 레파지토리 호출 (메서드를 3개 || 마이바티스 동적쿼리 중 선택 )
         return "account/detail";
     }
 
