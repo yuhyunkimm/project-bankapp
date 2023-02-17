@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import shop.mtcoding.bankapp.dto.account.AccountDepositReqDto;
 import shop.mtcoding.bankapp.dto.account.AccountSaveReqDto;
+import shop.mtcoding.bankapp.dto.account.AccountTransferReqDto;
 import shop.mtcoding.bankapp.dto.account.AccountWithdrawReqDto;
 import shop.mtcoding.bankapp.handler.ex.CustomException;
 import shop.mtcoding.bankapp.model.account.Account;
@@ -91,5 +92,40 @@ public class AccountService {
 
         historyRepository.insert(history);
 
+    }
+
+    public int 계좌이체(AccountTransferReqDto accountTransferReqDto, int principalId) {
+        // 1. 출금 계좌 존재 유무
+        Account wAccountPS = accountRepository.findByNumber(accountTransferReqDto.getWAccountNumber());
+        if (wAccountPS == null) {
+            throw new CustomException("출금계좌를 확인 해주세요", HttpStatus.BAD_REQUEST);
+        }
+        // 2. 입금 계좌 존재 유무
+        Account dAccountPS = accountRepository.findByNumber(accountTransferReqDto.getDAccountNumber());
+        if (dAccountPS == null) {
+            throw new CustomException("계좌를 확인 해주세요", HttpStatus.BAD_REQUEST);
+        }
+        // 3. 출금계좌 비밀번호 확인
+        wAccountPS.checkPassword(accountTransferReqDto.getWAccountPassword());
+
+        // 4. 출금계좌금액 확인
+        wAccountPS.checkBalance(accountTransferReqDto.getAmount());
+
+        // 5. 출금계좌 소유주 확인(로그인 한 사람)
+        wAccountPS.checkOwner(principalId);
+
+        // 6. 잔액 변경(-balace 확인)
+        wAccountPS.setBalance(accountTransferReqDto.getAmount());
+        accountRepository.updateById(wAccountPS);
+
+        // 7. 이체 트랜젝션 만들기(거래내역)
+        History history = new History();
+        history.setAmount(accountTransferReqDto.getAmount());
+        history.setWAccountId(wAccountPS.getId());
+        history.setDAccountId(wAccountPS.getId());
+        history.setWBalance(wAccountPS.getBalance());
+        history.setDBalance(wAccountPS.getBalance());
+
+        return wAccountPS.getId();
     }
 }
