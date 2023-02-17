@@ -34,7 +34,7 @@ public class Account {
 
     public void checkBalance(Long amount) {
         if (this.balance < amount) {
-            throw new CustomException("잔액이 부족한데?", HttpStatus.BAD_REQUEST);
+            throw new CustomException("잔액이 부족합니다", HttpStatus.BAD_REQUEST);
         }
     }
 }

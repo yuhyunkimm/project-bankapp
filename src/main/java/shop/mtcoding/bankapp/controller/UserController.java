@@ -55,7 +55,7 @@ public class UserController {
         }
 
         session.setAttribute("principal", principal);
-        return "redirec:/";
+        return "redirect:/";
     }
 
     @PostMapping("/join")

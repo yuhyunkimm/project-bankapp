@@ -9,4 +9,4 @@
             <button>로그인</button>
         </form>
 
-        <%@ include file="../layout/footer.jsp" %>
+<%@ include file="../layout/footer.jsp" %>

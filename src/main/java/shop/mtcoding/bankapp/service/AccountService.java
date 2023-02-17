@@ -69,13 +69,27 @@ public class AccountService {
         return accountPS.getId();
     }
 
-    public void 계좌입금(AccountDepositReqDto accountDepositReqDto, int principalId) {
-        // atm 계좌입금 (인증은 컨트롤러에서 확인)
-        // 내 비밀번호 확인 ?
-        // 1. 내 계좌 잔액
-        // 2. 금액 입력
-        // 3. 잔액 변경
-        // 4. 잔액 변경
+    @Transactional
+    public void 계좌입금(AccountDepositReqDto accountDepositReqDto) {
+        // 1. 계좌 존재 유무
+        Account accountPS = accountRepository.findByNumber(accountDepositReqDto.getDAccountNumber());
+        if (accountPS == null) {
+            throw new CustomException("", HttpStatus.BAD_REQUEST);
+        }
+
+        // 2. 입금하기(의미 있는 메서드를 호출)
+        accountPS.deposit(accountDepositReqDto.getAmount()); // 모델 상태 변경
+        accountRepository.updateById(accountPS);
+
+        // 3. 입금 틀랜잭션 만들기(히스토리)
+        History history = new History();
+        history.setAmount(accountDepositReqDto.getAmount());
+        history.setWAccountId(null);
+        history.setDAccountId(accountPS.getId());
+        history.setWBalance(null);
+        history.setDBalance(accountPS.getBalance());
+
+        historyRepository.insert(history);
 
     }
 }
